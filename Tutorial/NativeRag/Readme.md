@@ -61,8 +61,8 @@ Configure settings via `config/config1.json`:
 8. Implement new generators in `Generator.py`
 
 ## TODO
-• [ ] Deepseek local deployment (Ollama)
-• [ ] Support 10+ file formats
-• [ ] Web UI visualization
-• [ ] Hybrid search strategies
-• [ ] Performance benchmarking
+• [ ] Deepseek local deployment (Ollama)  
+• [ ] Support 10+ file formats  
+• [ ] Web UI visualization  
+• [ ] Hybrid search strategies  
+• [ ] Performance benchmarking  
