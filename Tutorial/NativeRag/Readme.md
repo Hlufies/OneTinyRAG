@@ -1,42 +1,41 @@
-
 # Tutorial-NativeRAG
 
-基于 faiss+langchain+Deepseek 的RAG的Tutorial。
+A RAG Tutorial based on LangChain+Deepseek+Faiss implementation.
 
-## 快速开始
-### 安装依赖
+## Quick Start
+### Install Dependencies
 ```bash
 conda activate DeepseekRag
 pip install -r requirements.txt
 ```
 
-### 运行示例
+### Run Demo
 ```bash
 python app.py
 ```
 
-## 项目结构
+## Project Structure
 
 ```
 /NativeRag/
-├── app.py                 # 主程序入口
-├── Readme.md              # 英文文档
-├── Readme_zh.md           # 中文文档
-├── Indexer/               # 索引处理模块
+├── app.py                 # Main entry point
+├── Readme.md              # English documentation
+├── Readme_zh.md           # Chinese documentation
+├── Indexer/               # Indexing module
 │   ├── __init__.py
-│   ├── Indexer.py         # 索引管理核心
-│   ├── Embedder.py        # 嵌入模型抽象
-│   ├── DataProcessor.py   # 文档处理器
-│   └── Chunker.py         # 文本分块策略
-├── Generator/             # 结果生成模块
+│   ├── Indexer.py         # Index management core
+│   ├── Embedder.py        # Embedding model abstraction
+│   ├── DataProcessor.py   # Document processors
+│   └── Chunker.py         # Text chunking strategies
+├── Generator/             # Generation module
 │   └── Generator.py       
-├── Retriever/             # 检索模块
+├── Retriever/             # Retrieval module
 │   └── Retriever.py
-└── config/                # 配置文件目录
+└── config/                # Configuration directory
     └── config1.json
 ```
 
-## 核心组件
+## Core Components
 
 ```python
 indexer = Indexer(config)
@@ -44,22 +43,26 @@ retriever = Retriever(indexer.embedder.embedder, index, config)
 generator = Generator(indexer.embedder, config)
 ```
 
-## 配置说明
-通过`config/config1.json`可配置：
+## Configuration
+Configure settings via `config/config1.json`:
+• Embedding model parameters
+• Chunking size/overlap
+• Similarity threshold
+• LLM API endpoints
 
+## Extension Guide
+1. Register in `Indexer.py`
+2. Add document processors in `DataProcessor.py`
+3. Implement new text splitters in `Chunker.py`
+4. Extend embedding models in `Embedder.py`
+5. Register in `Retriever.py`
+6. Develop new retrievers in `Retriever.py`
+7. Register in `Generator.py`
+8. Implement new generators in `Generator.py`
 
-## 扩展指南
-1. 在`Indexer.py`中注册
-2. 在`DataProcessor.py`中扩展新文档处理器
-3. 在`Chunker.py`中扩展新文本切分器
-4. 在`Embedder.py`中扩展新embedder
-5. 在`Retriever.py`中注册
-6. 在`Retriever.py`中扩展新检索器
-7. 在`Generator.py`中注册
-8. 在`Generator.py`中扩展新的生成器
-
-## 演进路线
-- [ ] Deepseek本地部署 (Ollama)
-- [ ] 处理10+种文件格式
-- [ ] 前端可视化
-```
+## TODO
+• [ ] Deepseek local deployment (Ollama)
+• [ ] Support 10+ file formats
+• [ ] Web UI visualization
+• [ ] Hybrid search strategies
+• [ ] Performance benchmarking
