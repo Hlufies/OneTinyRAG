@@ -1,14 +1,15 @@
-```markdown
+
 # OneRAG - Intelligent Document Assistant 
 
+Implementing core retrieval-augmented generation capabilities. Now open for community-driven enhancements!
 
-**First-generation RAG system** implementing core retrieval-augmented generation capabilities. Now open for community-driven enhancements!
+## TODO
 
 ## 🚀 Current Capabilities
 
 ### Core Features
 ✅ **Document Processing**  
-- Supported formats: PDF/TXT/Markdown  
+- Supported formats: PDF/TXT 
 - Chunking strategies: Fixed-size sliding window (512 tokens)  
 - Metadata extraction: File name, timestamp  
 
@@ -22,17 +23,9 @@
 - Contextual fusion: Dynamic prompt templating  
 - Response validation: Basic hallucination checks  
 
-### Quick Start
-```bash
-conda create -n onerag python=3.9
-conda activate onerag
-pip install -r requirements.txt
-python app.py --config config/config1.json
-```
 
 ## 🔭 Future Roadmap
-
-### Phase 1: Core Enhancements (Q3 2024)
+### Phase 1: Core Enhancements
 **Document Processing**  
 - [ ] Multi-modal support (DOCX/PPTX/HTML)  
 - [ ] Layout-aware PDF parsing  
@@ -71,24 +64,8 @@ python app.py --config config/config1.json
 | Retriever       | Develop new strategies in Retriever.py  |
 | Generator       | Create response formatters in Generator.py |
 
-Sample contribution (Add CSV processor):
-```python
-class CSVProcessor(BaseProcessor):
-    def process(self, file_path):
-        import pandas as pd
-        df = pd.read_csv(file_path)
-        return [Document(page_content=str(row)) for row in df.iterrows()]
-```
+
 
 ## 📊 Performance Benchmarks
 
-```
 
-Key features of this README:
-1. Clear progression from current state to future vision
-2. Version-phased development plan
-3. Actionable contribution guidelines
-4. Performance metrics transparency
-5. Community engagement prompts
-6. Modular architecture showcase
-7. Badges for project status tracking
