@@ -34,14 +34,14 @@ RETRIEVER_MAPPING = {
 class Retriever:
     def __init__(self, embedder=None, index=None, config: dict=None):
         self.config = config
-        self.retriever = None
+        self.Retriever = None
         self._init_components(embedder, index)
         
 
     def _init_components(self, embedder, index):
         # init retriever
         retriever_cfg = self.config.get("retriever", {})
-        self.retriever = self._get_retriever(embedder, index, retriever_cfg)
+        self.Retriever = self._get_retriever(embedder, index, retriever_cfg)
 
     def _get_retriever(self, embedder, index, config: dict):
         retriever_type = config.get("type", "recursive")

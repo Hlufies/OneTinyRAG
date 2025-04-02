@@ -8,7 +8,7 @@ import faiss
 import numpy as np 
 
 from .DataProcessor import DataProcessor, PdfProcessor, TxtProcessor
-from .Chunker import Chunker, RecursiveChunker, TokenChunker
+from .Chunker import Chunker, RecursiveChunker, TokenChunker, SemanticSpacyChunker, SemanticNLTKChunker
 from .Embedder import Embedder, HuggingFaceEmbedder, BAAIEmbedder
 
 DOCUMENT_LOADER_MAPPING = {
@@ -19,6 +19,8 @@ DOCUMENT_LOADER_MAPPING = {
 CHUNER_MAPPING = {
     "recursive": (RecursiveChunker),
     "token": (TokenChunker),
+    "SemanticSpacyChunker" : (SemanticSpacyChunker),
+    "SemanticNLTKChunker" : (SemanticNLTKChunker)
 }
 
 EMBEDDER_MAPPING = {
@@ -30,21 +32,18 @@ class Indexer:
     def __init__(self, config: dict):
         self.config = config
         self._init_components()
-        self.chunker = None
-        self.embedder = None
-        self.processor = None
+        self.Chunker = None
+        self.Embedder = None
         self._init_components()
 
     def _init_components(self):
         # init chunker
         chunker_cfg = self.config.get("chunker", {})
-        self.chunker = self._get_chunker(chunker_cfg)
+        self.Chunker = self._get_chunker(chunker_cfg)
 
         # init embedder
         embedder_cfg = self.config.get("embedder", {})
-        self.embedder = self._get_embedder(embedder_cfg)
-
-        
+        self.Embedder = self._get_embedder(embedder_cfg)
 
     def _get_data_processor(self, file_path: str) -> str:
          # auto load processor by suffix
@@ -75,8 +74,8 @@ class Indexer:
         return embedder(**params)
     def index(self, file_path: str) -> List:
         text = self._get_data_processor(file_path)
-        chunks = self.chunker.chunk(text)
-        return self.embedder.embed(chunks), chunks
+        chunks = self.Chunker.chunk(text)
+        return self.Embedder.embed(chunks), chunks
      
         
         

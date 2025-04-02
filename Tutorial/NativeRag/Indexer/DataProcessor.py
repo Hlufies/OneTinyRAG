@@ -1,8 +1,19 @@
 from abc import ABC, abstractmethod
 from typing import List
 from langchain.docstore.document import Document
-from langchain_community.document_loaders import PyPDFLoader
 import re
+from langchain_community.document_loaders import (
+    PyPDFLoader, 
+    PDFPlumberLoader,
+    TextLoader,
+    UnstructuredWordDocumentLoader,
+    UnstructuredPowerPointLoader,
+    UnstructuredExcelLoader,
+    CSVLoader,
+    UnstructuredMarkdownLoader,
+    UnstructuredXMLLoader,
+    UnstructuredHTMLLoader,
+)
 
 class DataProcessor(ABC):
     """Base class for all data processors"""
@@ -33,6 +44,36 @@ class TxtProcessor(DataProcessor):
         except Exception as e:
             raise ValueError(f"TxtProcessor error: {e}")
 
+class AutoProcessor(DataProcessor):
+    def process(self, file_path):
+        DOCUMENT_LOADER_MAPPING = {
+            ".pdf": (PDFPlumberLoader, {}),
+            ".txt": (TextLoader, {"encoding": "utf8"}),
+            ".doc": (UnstructuredWordDocumentLoader, {}),
+            ".docx": (UnstructuredWordDocumentLoader, {}),
+            ".ppt": (UnstructuredPowerPointLoader, {}),
+            ".pptx": (UnstructuredPowerPointLoader, {}),
+            ".xlsx": (UnstructuredExcelLoader, {}),
+            ".csv": (CSVLoader, {}),
+            ".md": (UnstructuredMarkdownLoader, {}),
+            ".xml": (UnstructuredXMLLoader, {}),
+            ".html": (UnstructuredHTMLLoader, {}),
+        }
+
+        ext = Path(file_path).suffix.lower()
+        loader_tuple = DOCUMENT_LOADER_MAPPING.get(ext) 
+
+        if loader_tuple:
+            processor_class, args = loader_tuple 
+            processor = processor_class(file_path, **args) 
+            documents = [doc.page_content for doc in loader.load()]
+            text = ''
+            for document in documents:
+                text += clean_text(document)
+            return text
+        else:
+            raise ValueError(f"no match processor error: {e}")
+            exit(0)
 
 def clean_text(text: str) -> str:
     """
