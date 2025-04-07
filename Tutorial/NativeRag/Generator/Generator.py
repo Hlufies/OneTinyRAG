@@ -17,7 +17,7 @@ class DeepseekAPIGenerator:
     def __init__(self):
         super().__init__()
     def generate(self, query, retrievalChunks: List[str]) -> str:
-        client = OpenAI(api_key="sk-fea7631fae524eb98ef05ebe4d82667c", base_url="https://api.deepseek.com")
+        client = OpenAI(api_key="xxx", base_url="https://api.deepseek.com")
         llm_model = "deepseek-reasoner"
         context = ""
         for i, chunk in enumerate(retrievalChunks):
