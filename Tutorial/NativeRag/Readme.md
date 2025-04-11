@@ -1,6 +1,8 @@
+
+
 <p align="center">
-  <a href="[README.md](https://github.com/Hlufies/OneRAG/blob/main/Tutorial/NativeRag/Readme.md)">English</a> |
-  <a href="[README_zh.md](https://github.com/Hlufies/OneRAG/blob/main/Tutorial/NativeRag/Readme_zh.md)">简体中文</a>
+  <a href="https://github.com/Hlufies/OneRAG/blob/main/Tutorial/NativeRag/Readme.md">English</a> | 
+  <a href="https://github.com/Hlufies/OneRAG/blob/main/Tutorial/NativeRag/Readme_zh.md">简体中文</a>
 </p>
 
 # Tutorial-NativeRAG
