@@ -3,6 +3,11 @@
 
 基于 LangChain+Deepseek+Faiss 的RAG的Tutorial。  
 
+## Todo
+- [2025.4.10] 🔥多格式文件自动处理功能
+- [2025.4.10] 🔥Ollama + Deepseek本地化部署
+- [2025.4.10] 🔥扩展SemanticChunker（Spacy和NLTK）
+  
 
 ## 快速开始
 ### 安装依赖
@@ -59,7 +64,3 @@ generator = Generator(indexer.embedder, config)
 7. 在`Generator.py`中注册
 8. 在`Generator.py`中扩展新的生成器
 
-## 演进路线
-- [ ] Deepseek本地部署 (Ollama)
-- [ ] 处理10+种文件格式
-- [ ] 前端可视化
