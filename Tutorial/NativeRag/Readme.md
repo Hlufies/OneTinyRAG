@@ -9,6 +9,23 @@
 
 A RAG Tutorial based on LangChain+Deepseek+Faiss implementation.
 
+## Todo
+- [2025.4.20]  RL RAG 🔄
+- [2025.4.20]  CRAG 🔄
+- [2025.4.20]  Self RAG 🔄
+- [2025.4.20]  Multi-Modal RAG 🔄
+- [2025.4.20]  Adaptive Retrieval 🔄
+- [2025.4.20]  HyDE 🔄
+- [2025.4.20]  Query Transformations 🔄
+- [2025.4.15]  Relevant Segment Extraction 🔄
+- [2025.4.15]  Contextual Compression 🔄
+- [2025.4.15]  Fusion Retrieval 🔄
+- [2025.4.15]  Contextual Chunk Header 🔄
+- [2025.4.15]  MetaData Chunk 🔄
+- [2025.4.10] 🔥 Multi-format File Auto-processing ✅
+- [2025.4.10] 🔥 Ollama + Deepseek Local Deployment ✅
+- [2025.4.10] 🔥 SemanticChunker Extension (Spacy & NLTK) ✅
+
 ## Quick Start
 ### Install Dependencies
 ```bash
