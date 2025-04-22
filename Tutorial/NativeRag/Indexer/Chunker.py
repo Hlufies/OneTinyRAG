@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import List, Optional
+from typing import Union
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter, CharacterTextSplitter
 from abc import ABC, abstractmethod
@@ -26,8 +27,24 @@ class RecursiveChunker(Chunker):
             separators=["\n\n## ", "\n# ", "\n\n", "\n", "。", "!", "?", " ", ""]
         )
 
-    def chunk(self, docs: str) -> List:
-        return self.splitter.split_text(docs)
+    def chunk(self, docs: Union[str, List[str], List[Document]]) -> List:
+        if isinstance(docs, str):
+            return self.splitter.split_text(docs)
+        elif isinstance(docs, List[str]): 
+            return [self.splitter.split_text(doc) for doc in docs]
+        elif isinstance(docs, List[Document]):
+            chunked_docs = []
+            for doc in docs:
+                chunks = self.splitter.split_text(doc.page_content)
+                for chunk in chunks:
+                    new_doc = Document(
+                        page_content=chunk,
+                        metadata=doc.metadata.copy()  # 复制原始元数据
+                    )
+                    chunked_docs.append(new_doc)
+            return chunked_docs
+        else:
+            raise ValueError("chunker ERROR")
 
 class TokenChunker(Chunker):
     def __init__(self, chunk_size=512, chunk_overlap=64):
@@ -189,4 +206,15 @@ class SemanticNLTKChunker(Chunker):
         chunks = self.split_text(docs)
         return chunks
 
-    
+
+class PaperChunker(Chunker):
+    def __init__(self, chunk_size=512, chunk_overlap=64):
+        self.splitter = RecursiveCharacterTextSplitter(
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+            separators=["\n\n## ", "\n# ", "\n\n", "\n", "。", "!", "?", " ", ""]
+        )
+        self.metaData = None
+
+    def chunk(self, docs: str) -> List:
+        return self.splitter.split_text(docs)

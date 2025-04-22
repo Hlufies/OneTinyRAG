@@ -1,0 +1,31 @@
+{
+    "chunker": {
+        "type": "SemanticNLTKChunker",
+        "params": {
+            "chunk_size": 512,
+            "chunk_overlap" : 64,
+            "language" : "english",
+            "use_jieba" : false
+        }
+
+    },
+    "embedder": {
+        "docEmbedder" : {
+            "type": "BAAIEmbedder",
+            "params": {"model_name": "/newdata/HJQ/Cultural_Tourism_Program/RAGDemo/rag_app/bge-small-zh-v1.5"}
+        },
+        "imgEmbedder" : {
+            "type": "Salesforce/blip2-opt-2.7b",
+            "params": {"model_name": "Salesforce/blip2-opt-2.7b"}
+        }
+        
+    },
+    "retriever": {
+        "type": "CosinRetriever",
+        "params": {}
+    },
+    "generator": {
+        "type": "DeepseekOllamaGenerator",
+        "params": {}
+    }
+}

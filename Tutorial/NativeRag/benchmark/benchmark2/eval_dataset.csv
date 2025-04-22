@@ -1,0 +1,21 @@
+"context","question","answer","source_doc","groundedness_score","groundedness_eval","relevance_score","relevance_eval","standalone_score","standalone_eval"
+"## Usage tips
+
+- The quickest way to get started with TrOCR is by checking the [tutorial
+  notebooks](https://github.com/NielsRogge/Transformers-Tutorials/tree/master/TrOCR), which show how to use the model
+  at inference time as well as fine-tuning on custom data.
+- TrOCR is pre-trained in 2 stages before being fine-tuned on downstream datasets. It achieves state-of-the-art results
+  on both printed (e.g. the [SROIE dataset](https://paperswithcode.com/dataset/sroie) and handwritten (e.g. the [IAM
+  Handwriting dataset](https://fki.tic.heia-fr.ch/databases/iam-handwriting-database>) text recognition tasks. For more
+  information, see the [official models](https://huggingface.co/models?other=trocr>).
+- TrOCR is always used within the [VisionEncoderDecoder](vision-encoder-decoder) framework.
+
+## Resources
+
+A list of official Hugging Face and community (indicated by 🌎) resources to help you get started with TrOCR. If you're interested in submitting a resource to be included here, please feel free to open a Pull Request and we'll review it! The resource should ideally demonstrate something new instead of duplicating an existing resource.
+
+<PipelineTag pipeline=""text-classification""/>","Which datasets does TrOCR achieve state-of-the-art results on?  
+","TrOCR achieves state-of-the-art results on the SROIE dataset (printed text) and the IAM Handwriting dataset (handwritten text).","huggingface/transformers/blob/main/docs/source/en/model_doc/trocr.md","5","The context explicitly mentions that TrOCR achieves state-of-the-art results on both printed (e.g., the SROIE dataset) and handwritten (e.g., the IAM Handwriting dataset) text recognition tasks. This information directly answers the question unambiguously.
+","5","This question is highly relevant to machine learning developers working with NLP applications, especially those using the Hugging Face ecosystem. TrOCR is a transformer-based OCR model, and knowing which datasets it performs well on can help developers choose the right model for their specific tasks. The question addresses a practical concern for developers looking to leverage state-of-the-art models for text recognition tasks.  
+","5","The question is clear and self-contained, asking about the datasets where TrOCR (presumably a model or technology) achieves state-of-the-art results. It does not rely on any implicit context or additional information to be understood. Even if ""TrOCR"" is a technical term, the question is well-formed and can be answered by someone with access to relevant documentation or knowledge in the field.
+"

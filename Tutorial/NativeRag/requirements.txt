@@ -1,4 +1,4 @@
-faiss==1.9.0
+faiss
 faiss_cpu==1.9.0.post1
 faiss_gpu==1.7.2
 langchain==0.3.22

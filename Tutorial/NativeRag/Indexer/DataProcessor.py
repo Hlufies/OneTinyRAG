@@ -1,7 +1,12 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Union
 from langchain.docstore.document import Document
 import re
+from typing import Tuple, List
+from tqdm import tqdm
+import random
+from PIL import Image
+from PyPDF2 import PdfReader
 from langchain_community.document_loaders import (
     PyPDFLoader, 
     PDFPlumberLoader,
@@ -22,14 +27,29 @@ class DataProcessor(ABC):
         pass
 
 class PdfProcessor(DataProcessor):
-    def process(self, file_path: str) -> str:
+    def process(self, file_path: str) -> Union[str, List[str], List[Document]]:
+        # rand_num = random.randint(1, 3)
+        rand_num = 1
         try:
-            loader = PyPDFLoader(file_path)
-            documents = [doc.page_content for doc in loader.load()]
-            text = ''
-            for document in documents:
-                text += clean_text(document)
-            return text
+            if rand_num == 1:
+                loader = PyPDFLoader(file_path)
+                documents = [doc.page_content for doc in tqdm(loader.load())]
+                text = ''
+                for document in documents:
+                    text += clean_text(document)
+                return text
+            elif rand_num == 2:
+                def get_pdf_metadata(file_path):
+                    reader = PdfReader(file_path)
+                    metadata = reader.metadata
+                    return {k : v for k, v in metadata.items() if v != ''}
+                metadata = get_pdf_metadata(file_path)
+                documents = [Document(page_content=doc["text"], metadata=metadata) for doc in tqdm(loader.load())]
+                return documents
+            else:
+                loader = PyPDFLoader(file_path)
+                documents = [doc["text"] for doc in tqdm(loader.load())]
+                return documents
         except Exception as e:
             raise ValueError(f"PdfProcessor error: {e}")
 
@@ -43,6 +63,21 @@ class TxtProcessor(DataProcessor):
             return text
         except Exception as e:
             raise ValueError(f"TxtProcessor error: {e}")
+
+class ImgProcessor(DataProcessor):
+    def process(self, file_path: str):
+        return Image.open(file_path)
+      
+  
+
+# class JsonProcessor(DataProcessor):
+#     def process(self, file_path: str=None, encoding='utf8') -> str:
+#         try:
+#             text  = " "
+#             # wait process the json file
+#             return text
+#         except Exception as e:
+#             raise ValueError(f"TxtProcessor error: {e}")
 
 class AutoProcessor(DataProcessor):
     def process(self, file_path):
@@ -73,7 +108,7 @@ class AutoProcessor(DataProcessor):
             return text
         else:
             raise ValueError(f"no match processor error: {e}")
-            exit(0)
+          
 
 def clean_text(text: str) -> str:
     """
