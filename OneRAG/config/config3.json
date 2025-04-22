@@ -1,0 +1,18 @@
+{
+    "chunker": {
+        "type": "recursive",
+        "params": {"chunk_size": 1024}
+    },
+    "embedder": {
+        "type": "BAAIEmbedder",
+        "params": {"model_name": "/newdata/HJQ/Cultural_Tourism_Program/RAGDemo/rag_app/bge-small-zh-v1.5"}
+    },
+    "retriever": {
+        "type": "CosinRetriever",
+        "params": {}
+    },
+    "generator": {
+        "type": "DeepseekOllamaGenerator",
+        "params": {}
+    }
+}
