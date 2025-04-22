@@ -1,5 +1,6 @@
 
 <img src="poster.jpg" style="display: block; margin: 0 auto; width: 100%; max-width: 600px;" />
+
 # OneRAG - Intelligent Document Assistant 
 
 <p align="center">
