@@ -1,5 +1,7 @@
 
-<img src="poster.jpg" style="display: block; margin: 0 auto; width: 100%; max-width: 600px;" />
+<p align="center">
+  <img src="poster.jpg" alt="封面图" width="600" />
+</p>
 
 # OneRAG - Intelligent Document Assistant 
 
