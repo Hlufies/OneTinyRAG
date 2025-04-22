@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="poster.jpg" alt="封面图" width="600" />
+  <img src="poster.png" alt="封面图" width="600" />
 </p>
 
 # OneRAG - Intelligent Document Assistant 
