@@ -8,9 +8,6 @@
 
 Implementing core retrieval-augmented generation capabilities. Now open for community-driven enhancements!
 
-# Tutorial-NativeRAG
-
-A RAG Tutorial based on LangChain+Deepseek+Faiss implementation.
 
 ## Todo
 - [2025.4.20]  RL RAG 🔄
