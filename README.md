@@ -1,8 +1,3 @@
-
-<p align="center">
-  <img src="poster.png" alt="封面图" />
-</p>
-
 # OneRAG - Intelligent Document Assistant 
 
 <p align="center">
