@@ -1,8 +1,8 @@
 # OneRAG - Intelligent Document Assistant 
 
 <p align="center">
-  <a href="https://github.com/Hlufies/OneRAG/blob/main/Tutorial/NativeRag/Readme.md">English</a> | 
-  <a href="https://github.com/Hlufies/OneRAG/blob/main/Tutorial/NativeRag/Readme_zh.md">简体中文</a>
+  <a href="https://github.com/Hlufies/OneRAG/blob/main/Readme.md">English</a> | 
+  <a href="https://github.com/Hlufies/OneRAG/blob/main/Readme_zh.md">简体中文</a>
 </p>
 
 
@@ -10,19 +10,7 @@ Implementing core retrieval-augmented generation capabilities. Now open for comm
 
 
 ## Todo
-- [2025.4.20]  RL RAG 🔄
-- [2025.4.20]  CRAG 🔄
-- [2025.4.20]  Self RAG 🔄
-- [2025.4.20]  Multi-Modal RAG 🔄
-- [2025.4.20]  Adaptive Retrieval 🔄
-- [2025.4.20]  HyDE 🔄
-- [2025.4.20]  Query Transformations 🔄
-- [2025.4.15]  Relevant Segment Extraction 🔄
-- [2025.4.15]  Contextual Compression 🔄
-- [2025.4.15]  Fusion Retrieval 🔄
-- [2025.4.15]  Contextual Chunk Header 🔄
 - [2025.4.23] 🔥 Mutil-Modal process
-- [2025.4.23] 🔥 BLIP2
 - [2025.4.23] 🔥 MetaData Chunk
 - [2025.4.10] 🔥 Multi-format File Auto-processing ✅
 - [2025.4.10] 🔥 Ollama + Deepseek Local Deployment ✅
@@ -35,20 +23,20 @@ conda activate DeepseekRag
 pip install -r requirements.txt
 ```
 
-### Run Demo
+### Run
 ```bash
-python app.py
+bash app.sh
 ```
 
 ## Project Structure
 
 ```
-/NativeRag/
+/OneRAG/
+├── app.sh                 # Main bash file
 ├── app.py                 # Main entry point
 ├── Readme.md              # English documentation
 ├── Readme_zh.md           # Chinese documentation
 ├── Indexer/               # Indexing module
-│   ├── __init__.py
 │   ├── Indexer.py         # Index management core
 │   ├── Embedder.py        # Embedding model abstraction
 │   ├── DataProcessor.py   # Document processors
@@ -58,15 +46,10 @@ python app.py
 ├── Retriever/             # Retrieval module
 │   └── Retriever.py
 └── config/                # Configuration directory
-    └── config1.json
-```
-
-## Core Components
-
-```python
-indexer = Indexer(config)
-retriever = Retriever(indexer.embedder.embedder, index, config)
-generator = Generator(indexer.embedder, config)
+│   └── config.json
+└── Tutorial/              # Other Tutorials
+  ├── Ollama_zh.md         
+  └── Ollama.md
 ```
 
 ## Configuration
@@ -85,11 +68,6 @@ Configure settings via `config/config1.json`:
 6. Develop new retrievers in `Retriever.py`
 7. Register in `Generator.py`
 8. Implement new generators in `Generator.py`
-
-
-
-
-
 
 ## 📊 Performance Benchmarks
 

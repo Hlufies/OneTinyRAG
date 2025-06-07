@@ -98,8 +98,7 @@ class Indexer:
         chunks = []
         for (data, type) in datas:
             if type in ['jpg', 'jpeg', 'png']:
-                # 多模态信息除了图像就是文本, unprocess
-                pass
+                pass # 多模态信息除了图像就是文本, unprocess
             else:
                 chunks += self.Chunker.chunk(data)
         
