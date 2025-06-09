@@ -1,0 +1,107 @@
+{
+    "task_analysis": {
+        "domain": [
+            "情感",
+            "通用",
+            "情感",
+            "心理健康"
+        ],
+        "complexity": {
+            "level": "low",
+            "desc": "单实体查询"
+        },
+        "suggestions": "情感支持视角，结合认知行为疗法与情绪调节策略，提供即时心理安抚与长期调节建议",
+        "required_steps": [
+            "intent_analysis",
+            "query_rethink",
+            "synonym_generation",
+            "combined_query"
+        ],
+        "confidence": 0.885
+    },
+    "intent_analysis": {
+        "intent_type": [
+            "情绪疏导",
+            "心理支持",
+            "情绪疏导",
+            "心理支持"
+        ],
+        "core_entity": [
+            "心情不好",
+            "心情低落",
+            "负面情绪",
+            "情绪波动"
+        ],
+        "required_steps": [
+            "query_rethink",
+            "synonym_generation",
+            "combined_query"
+        ],
+        "confidence": 0.895,
+        "enhanced_query": {
+            "immediate": "快速缓解心情不好的5种正念练习方法",
+            "long_term": "如何建立情绪韧性应对周期性情绪低落",
+            "professional_framework": "基于CBT的情绪调节四象限模型"
+        }
+    },
+    "synonym_generation": {
+        "synonyms": [
+            "情绪低落",
+            "抑郁情绪",
+            "心理不适",
+            "情绪调节",
+            "压力缓解",
+            "mood improvement",
+            "emotional distress",
+            "mental wellbeing",
+            "情绪低落",
+            "抑郁情绪",
+            "心理不适",
+            "情绪调节",
+            "压力缓解",
+            "mood improvement",
+            "emotional distress",
+            "mental wellbeing"
+        ],
+        "generation_rules": "情感领域三重覆盖：专业术语（情绪调节/抑郁情绪） + 日常表达（心情不好/压力大） + 英文术语（mood improvement/emotional distress）",
+        "required_steps": [
+            "query_rethink",
+            "combined_query"
+        ],
+        "confidence": 0.87
+    },
+    "query_rethink": {
+        "standard_queries": [
+            "快速改善情绪的科学方法",
+            "情绪低落的认知行为干预策略",
+            "即时心理安抚技术与长期情绪管理方案",
+            "Evidence-based mood enhancement techniques",
+            "工作场景下的情绪调节技巧",
+            "快速缓解心情不好的正念呼吸练习步骤",
+            "情绪低落时调节多巴胺分泌的3种科学方法",
+            "短期情绪急救与长期心理韧性培养方案",
+            "基于ACT疗法的情绪接纳技术指南",
+            "职场人士即时情绪调节工具箱"
+        ],
+        "required_steps": [
+            "combined_query"
+        ],
+        "confidence": 0.9,
+        "enhanced_dimensions": {
+            "physiological": "血清素提升的饮食/运动方案",
+            "cognitive": "自动负面思维记录与重构技术",
+            "behavioral": "15分钟情绪调节行为实验",
+            "social": "支持系统构建路线图"
+        }
+    },
+    "combined_query": {
+        "final_query": [
+            "(情绪低落 OR 心情不好 OR 抑郁情绪 OR mood improvement) AND (即时缓解 OR 科学方法 OR 认知行为疗法 OR 情绪调节技巧 OR quick relief OR CBT techniques)",
+            "(心理不适 OR 压力大 OR emotional distress) AND (自我调节 OR 专业干预 OR 长期管理策略 OR self-help OR professional support)",
+            "(情绪低落 OR 心情不好 OR 抑郁情绪 OR mood improvement) AND (即时缓解 OR 科学方法 OR 认知行为疗法 OR 情绪调节技巧 OR quick relief OR CBT techniques)",
+            "(心理不适 OR 压力大 OR emotional distress) AND (自我调节 OR 专业干预 OR 长期管理策略 OR self-help OR professional support)"
+        ],
+        "required_steps": [],
+        "confidence": 0.9
+    }
+}

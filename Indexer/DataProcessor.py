@@ -1,3 +1,13 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+    @Copyright: © 2025 Junqiang Huang. 
+    @Version: OneRAG v3
+    @Author: Junqiang Huang
+    @Time: 2025-06-08 23:33:50
+"""
+
 from abc import ABC, abstractmethod
 from typing import List, Union
 from langchain.docstore.document import Document
@@ -33,7 +43,7 @@ class PdfProcessor(DataProcessor):
         rand_num = 1
         try:
             if rand_num == 1:
-                # 返回纯文本
+                # 返回 文本
                 loader = PyPDFLoader(file_path)
                 documents = [doc.page_content for doc in tqdm(loader.load())]
                 text = ''

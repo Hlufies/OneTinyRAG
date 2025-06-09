@@ -1,0 +1,74 @@
+{
+    "task_analysis": {
+        "domain": [
+            "医疗",
+            "科技"
+        ],
+        "complexity": {
+            "level": "medium",
+            "desc": "含多条件限制"
+        },
+        "suggestions": "生物医学视角，结合分子生物学与药物研发知识，明确靶蛋白的定义、筛选标准及其在疾病治疗中的作用",
+        "required_steps": [
+            "intent_analysis",
+            "query_rethink",
+            "synonym_generation",
+            "combined_query"
+        ],
+        "confidence": 0.85
+    },
+    "intent_analysis": {
+        "intent_type": [
+            "科研信息查询",
+            "药物靶点识别"
+        ],
+        "core_entity": [
+            "靶蛋白"
+        ],
+        "required_steps": [
+            "query_rethink",
+            "synonym_generation",
+            "combined_query"
+        ],
+        "confidence": 0.88
+    },
+    "synonym_generation": {
+        "synonyms": [
+            "药物靶点",
+            "治疗靶标",
+            "分子靶点",
+            "生物标志物",
+            "Target Protein",
+            "Drug Target",
+            "Therapeutic Target",
+            "Biomarker"
+        ],
+        "generation_rules": "专业术语（药物靶点/生物标志物） + 英文术语（Target Protein/Drug Target） + 应用场景（治疗靶标）",
+        "required_steps": [
+            "query_rethink",
+            "combined_query"
+        ],
+        "confidence": 0.9
+    },
+    "query_rethink": {
+        "standard_queries": [
+            "当前热门疾病治疗靶蛋白有哪些",
+            "FDA批准药物涉及的靶蛋白分类",
+            "肿瘤免疫治疗中的新兴靶蛋白",
+            "Clinical trials targeting novel protein targets",
+            "跨膜蛋白与GPCR靶点研究进展"
+        ],
+        "required_steps": [
+            "combined_query"
+        ],
+        "confidence": 0.87
+    },
+    "combined_query": {
+        "final_query": [
+            "(靶蛋白 OR 药物靶点 OR Target Protein) AND (疾病治疗 OR 药物研发 OR 临床试验 OR drug development OR therapeutic application)",
+            "(肿瘤 OR 心血管疾病 OR 神经退行性疾病) AND (靶蛋白筛选 OR 靶点验证 OR target identification)"
+        ],
+        "required_steps": [],
+        "confidence": 0.89
+    }
+}
