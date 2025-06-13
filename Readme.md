@@ -45,8 +45,19 @@ bash app.sh
 │   └── Generator.py       
 ├── Retriever/             # Retrieval module
 │   └── Retriever.py
-└── config/                # Configuration directory
+├── Tools/                 # Tools module
+│   ├── Query.py           # Rewritte Query
+│   ├── Search.py          # Search
+│   ├── Utils.py           # Utils
+│   └── Workflow.py        # Workflow
+└── Config/                # Configuration directory
 │   └── config.json
+├── Dataset/               # Retrieval module
+│   └── text
+├── Agent/              
+├── Critic/                
+├── Tutorial/                
+│
 └── Tutorial/              # Other Tutorials
   ├── Ollama_zh.md         
   └── Ollama.md
