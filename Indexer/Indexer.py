@@ -13,31 +13,11 @@ import importlib
 import pkgutil
 from typing import List
 import os
-
 from .DataProcessor import PdfProcessor, TxtProcessor, JsonProcessor
 from .Chunker import Chunker, RecursiveChunker, TokenChunker, SemanticSpacyChunker, SemanticNLTKChunker, MetaDataChunker
 from .Embedder import Embedder, HuggingFaceEmbedder, BAAIEmbedder, MetaDataEmbedder
-from .Agent import CodeAutoAgent
+from Mappers.Mappers import LOADER_MAPPING, CHUNER_MAPPING, EMBEDDER_MAPPING
 
-LOADER_MAPPING = {
-    ".pdf": (PdfProcessor, {}),
-    ".txt": (TxtProcessor, {"encoding": "utf8"}),
-    ".json" : (JsonProcessor, {})
-}
-
-CHUNER_MAPPING = {
-    "recursive": (RecursiveChunker),
-    "token": (TokenChunker),
-    "SemanticSpacyChunker" : (SemanticSpacyChunker),
-    "SemanticNLTKChunker" : (SemanticNLTKChunker),
-    "MetaDataChunker": (MetaDataChunker),
-}
-
-EMBEDDER_MAPPING = {
-    "BAAIEmbedder": (BAAIEmbedder),
-    "HuggingFaceEmbedder": (HuggingFaceEmbedder),
-    "MetaDataEmbedder": (MetaDataEmbedder)
-}
 
 class Indexer:
     def __init__(self, config: dict):

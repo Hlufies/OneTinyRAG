@@ -20,5 +20,12 @@
     "generator": {
         "type": "DeepseekAPIGenerator",
         "params": {}
+    },
+    "query" :{
+        "query_model" : "OllamaDeepseekQuery",
+        "template_query": "query_template_v1.json",
+        "template_workflow" : "query_workflow_v1.json",
+        "task_func" : "task_func_default",
+        "task_llm" : "OllamaDeepseekQuery"
     }
 }

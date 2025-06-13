@@ -20,14 +20,16 @@ from Tools.Query import Query
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(current_dir)
 
+
+
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
-with open('config/config7.json', 'r') as js:
+with open('Config/config7.json', 'r') as js:
     config = json.load(js)
-query="以下有哪些靶蛋白"
-user_query, task_dict, final_dict = Query(query)
+query="西红柿炒蛋怎么做的？"
+user_query, task_dict, final_dict = Query(user_query=query, config=config)
 exit(0)
 indexer = Indexer(config)
-textIndex, txtChunks = indexer.index("dataset")
+textIndex, txtChunks = indexer.index("Dataset")
 retriever = Retriever(indexer.DocEmbedder.embedder, textIndex, config)
 retrievalChunks = retriever.retrieval(query, txtChunks, top_k=3)
 generator = Generator(config)

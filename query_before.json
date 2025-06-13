@@ -1,74 +1,116 @@
 {
     "task_analysis": {
         "domain": [
-            "医疗",
-            "科技"
+            "可扩展",
+            "烹饪",
+            "家庭料理",
+            "通用"
         ],
         "complexity": {
-            "level": "medium",
-            "desc": "含多条件限制"
+            "level": "low",
+            "desc": "单实体查询"
         },
-        "suggestions": "生物医学视角，结合分子生物学与药物研发知识，明确靶蛋白的定义、筛选标准及其在疾病治疗中的作用",
+        "suggestions": [
+            "从烹饪专家的视角提供标准化的菜谱框架，包含食材配比、火候控制、调味时序等专业维度",
+            "建议输出包含：1)食材精确克重(如鸡蛋液150g) 2)分阶段火候控制(中火炒蛋/旺火收汁) 3)调味时序(蛋液预调味/出锅前补咸) 4)关键步骤温度(蛋液60℃下锅) 5)专业技法(热锅凉油技法)"
+        ],
         "required_steps": [
             "intent_analysis",
             "query_rethink",
             "synonym_generation",
             "combined_query"
         ],
-        "confidence": 0.85
+        "confidence": 0.96
     },
     "intent_analysis": {
         "intent_type": [
-            "科研信息查询",
-            "药物靶点识别"
+            "烹饪指导"
         ],
         "core_entity": [
-            "靶蛋白"
+            "西红柿炒蛋"
         ],
         "required_steps": [
             "query_rethink",
             "synonym_generation",
             "combined_query"
         ],
-        "confidence": 0.88
+        "confidence": 0.97,
+        "optimized_query": {
+            "专业菜谱框架": {
+                "食材精确配比": [
+                    "西红柿400g（去蒂切滚刀块）",
+                    "鸡蛋液150g（约3个鸡蛋）",
+                    "花生油20ml",
+                    "食盐2g（分两次使用）",
+                    "白砂糖1g"
+                ],
+                "分阶段火候控制": [
+                    "旺火热锅至180℃",
+                    "中火炒蛋（保持160℃）",
+                    "转大火收汁（200℃）"
+                ],
+                "调味时序": [
+                    "蛋液预调味：加1g盐搅打均匀",
+                    "西红柿煸炒阶段补剩余1g盐",
+                    "出锅前3秒撒糖提鲜"
+                ],
+                "关键温度节点": [
+                    "蛋液下锅油温60℃",
+                    "西红柿入锅时蛋块中心温度72℃",
+                    "成品出锅温度≥85℃"
+                ],
+                "专业技法应用": [
+                    "热锅凉油技法（锅烧至冒青烟再倒油）",
+                    "蛋液顺时针搅打108次",
+                    "最后5秒锅边淋5ml热水激发香气"
+                ]
+            },
+            "衍生问题建议": [
+                "如何通过油温控制实现蛋液的金黄色泽？",
+                "西红柿去皮与否对成品口感的影响量化分析",
+                "不同糖类（白砂糖/冰糖/代糖）对酸甜平衡的影响"
+            ]
+        }
     },
     "synonym_generation": {
         "synonyms": [
-            "药物靶点",
-            "治疗靶标",
-            "分子靶点",
-            "生物标志物",
-            "Target Protein",
-            "Drug Target",
-            "Therapeutic Target",
-            "Biomarker"
+            "Stir-fried Tomato and Egg",
+            "快手番茄炒蛋",
+            "家常番茄炒蛋",
+            "西红柿炒鸡蛋",
+            "番茄炒蛋",
+            "番茄炒鸡蛋",
+            "Scrambled Eggs with Tomatoes"
         ],
-        "generation_rules": "专业术语（药物靶点/生物标志物） + 英文术语（Target Protein/Drug Target） + 应用场景（治疗靶标）",
+        "generation_rules": [
+            "三重覆盖：中文别名（番茄炒蛋/西红柿炒鸡蛋） + 英文译名（Scrambled Eggs with Tomatoes） + 场景描述（家常/快手）"
+        ],
         "required_steps": [
             "query_rethink",
             "combined_query"
         ],
-        "confidence": 0.9
+        "confidence": 0.96
     },
     "query_rethink": {
         "standard_queries": [
-            "当前热门疾病治疗靶蛋白有哪些",
-            "FDA批准药物涉及的靶蛋白分类",
-            "肿瘤免疫治疗中的新兴靶蛋白",
-            "Clinical trials targeting novel protein targets",
-            "跨膜蛋白与GPCR靶点研究进展"
+            "如何做出餐厅水平的番茄炒鸡蛋？",
+            "专业厨师版番茄炒蛋技术要点",
+            "西红柿炒蛋的标准化制作流程（含食材克重与火候参数）",
+            "Scrambled Eggs with Tomatoes step-by-step recipe",
+            "番茄炒蛋的营养成分分析与烹饪科学原理"
         ],
         "required_steps": [
             "combined_query"
         ],
-        "confidence": 0.87
+        "confidence": 0.94
     },
     "combined_query": {
         "final_query": [
-            "(靶蛋白 OR 药物靶点 OR Target Protein) AND (疾病治疗 OR 药物研发 OR 临床试验 OR drug development OR therapeutic application)",
-            "(肿瘤 OR 心血管疾病 OR 神经退行性疾病) AND (靶蛋白筛选 OR 靶点验证 OR target identification)"
+            "(西红柿炒蛋 OR 番茄炒蛋 OR Scrambled Eggs with Tomatoes) AND (做法 OR 食谱 OR 制作方法 OR recipe OR 烹饪技巧)",
+            "(番茄炒鸡蛋 OR 西红柿炒鸡蛋) AND (火候控制 OR 调味时机 OR 专业版)",
+            "(家常番茄炒蛋 OR 快手番茄炒蛋) AND (新手教程 OR 零失败)"
         ],
         "required_steps": [],
-        "confidence": 0.89
+        "confidence": 0.98
     }
 }

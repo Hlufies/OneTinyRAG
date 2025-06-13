@@ -5,8 +5,11 @@
     @Copyright: © 2025 Junqiang Huang. 
     @Version: OneRAG v3
     @Author: Junqiang Huang
-    @Time: 2025-06-08 23:33:50
+    @Time: 2025-06-12 23:41:04
+    
+
 """
+
 import sys
 import os
 from collections import defaultdict, deque
@@ -17,179 +20,55 @@ import asyncio
 import json
 from typing import Dict, List, Any, Callable, Coroutine
 from openai import OpenAI
+from .Utils import save_dict, format_template, extract_json_blocks
+from .Utils import merge_branch, ApiQuery, OllamaDeepseekQuery
+
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(current_dir)
 
-def format_template(data: dict, indent: int = 0, compact: bool = True) -> str:
+async def task_func_default(
+    user_query, 
+    task_llm, 
+    template, 
+    task_name: str, 
+    dep_results: Dict[str, Any]) -> dict:
     """
-    将字典格式化为紧凑的文本形式
-    
-    参数:
-        data: 要格式化的字典数据
-        indent: 当前缩进级别
-        compact: 是否使用紧凑格式（减少换行）
-        
-    返回:
-        格式化后的文本字符串
+        task_name: 当前任务名称
+        dep_results: 依赖任务的结果字典 {任务名: 结果}
     """
-    # 缩进字符串
-    indent_str = " " * indent
-    
-    if isinstance(data, dict):
-        # 处理空字典
-        if not data:
-            return "{}"
-        
-        # 处理嵌套字典
-        parts = []
-        for key, value in data.items():
-            # 处理键
-            formatted_key = f'"{key}"' if isinstance(key, str) else str(key)
-            
-            # 处理值
-            if isinstance(value, (dict, list)):
-                # 对于嵌套结构，增加缩进
-                formatted_value = format_template(value, indent + 4, compact)
-                
-                # 如果值较短，使用紧凑格式
-                if compact and len(str(value)) < 60:
-                    parts.append(f"{indent_str}{formatted_key}: {formatted_value.strip()}")
-                else:
-                    parts.append(f"{indent_str}{formatted_key}: {formatted_value}")
-            else:
-                # 基本数据类型
-                formatted_value = f'"{value}"' if isinstance(value, str) else str(value)
-                parts.append(f"{indent_str}{formatted_key}: {formatted_value}")
-        
-        # 添加逗号分隔符
-        content = ",\n".join(parts)
-        return f"{{\n{content}\n{' ' * indent}}}"
-    
-    elif isinstance(data, list):
-        # 处理空列表
-        if not data:
-            return "[]"
-        
-        # 处理嵌套列表
-        parts = []
-        for item in data:
-            formatted_item = format_template(item, indent + 4, compact)
-            
-            # 如果值较短，使用紧凑格式
-            if compact and len(str(item)) < 40:
-                parts.append(formatted_item.strip())
-            else:
-                parts.append(indent_str + formatted_item.strip())
-        
-        # 添加逗号分隔符
-        content = ", ".join(parts)
-        return f"[{content}]"
-    
-    elif isinstance(data, str):
-        # 处理字符串值
-        return f'"{data}"'
-    
-    elif isinstance(data, (int, float)):
-        # 处理数值
-        return str(data)
-    
-    elif data is None:
-        return "null"
-    
+    with open(os.path.join(current_dir, template), "r") as f:
+        dep_summary = json.load(f)
+    dep_summary['Template'] = {task_name : dep_results.get(task_name, {})}
+    dep_summary['Action'] = dep_summary['Action'].format(query=user_query, Template = {task_name : {k : "" for k, _ in dep_results.get(task_name, {}).items()}})
+
+    if dep_results:
+        dep_summary['Context'] = dep_results
+        task_work = format_template(dep_summary)
+        query_dict = task_llm(task_work)
+        return query_dict
     else:
-        # 处理其他类型
-        return str(data)
-
-def extract_json_blocks(text):
-    start = 0
-    end = len(text) - 1
-
-    while start < end:
-        if text[start] != '{':
-            start +=1
-        if text[end] != '}':
-            end -= 1
-        if text[start] == '{' and text[end] == '}':
-            break
-    if start >= end:
-        return {}
-    try:
-        return json.loads(text[start:end+1])
-    except Exception as e:
-        print("extract json error: ", e)
-        return {}
-
-def merge_branch(dict_a, dict_b) -> Any:
-    keys_a = set(dict_a.keys())
-    keys_b = dict_b.keys()
-    
-    for kb in keys_b:
-        if kb == 'required_steps':
-            continue
-        if kb in 'complexity':
-            continue
-        if kb in keys_a:
-            ctx_a = dict_a[kb]
-            ctx_b = dict_b[kb]
-
-            if kb == 'confidence':
-                if isinstance(ctx_a, float) and isinstance(ctx_b, float):
-                    dict_a[kb] = (ctx_a + ctx_b) / 2
-                    continue
-                else:
-                    try:
-                        ctx_a = float(ctx_a)
-                        ctx_b = float(ctx_b)
-                        dict_a[kb] = (ctx_a + ctx_b) / 2
-                    except Exception as e:
-                        continue
-                    continue
-            if isinstance(ctx_a, str):
-                ctx_a = [ctx_a]
-            if isinstance(ctx_b, str):
-                ctx_a = [ctx_b]
-            # 同时lists 暂时只考虑这种情况
-            if isinstance(ctx_a, list) and isinstance(ctx_b, list):
-                ctx_a += ctx_b
-                dict_a[kb] = ctx_a
-
-            # 同时dict 暂时只考虑这种情况
-            if isinstance(ctx_a, dict) and isinstance(ctx_b, dict):
-                for k, v in ctx_b.items():
-                    ctx_a[k] = v
-                dict_a[kb] = ctx_a
-        else:
-            dict_a[kb] = dict_b[kb]                
-    return dict_a
-
-
-def ApiQuery(query)->dict:
-    client = OpenAI(api_key="sk-94a5591a82a0409889c4d00f1c09edc0", base_url="https://api.deepseek.com")
-    llm_model = "deepseek-chat"
-
-    messages=[{"role": "system", "content": ""},{"role": "user", "content": f"{query}"},]
-    
-    response = client.chat.completions.create(
-        model=llm_model,
-        messages=messages,
-        stream=False
-    )
-    result = response.choices[0].message.content
-    result = extract_json_blocks(result)
-    return result
-
+        task_work = format_template(dep_summary)
+        query_dict = task_llm(task_work)
+        return query_dict
 
 """自适应工作流执行引擎"""
 class WorkflowExecutor:
-    def __init__(self, user_query, task_dict, task_graph: Dict[str, Any], task_funcs: Dict[str, Callable]):
+    def __init__(self, 
+        user_query, task_dict, template,
+        task_graph: Dict[str, Any], 
+        task_funcs: Dict[str, Callable], 
+        task_llms: Dict[str, Any]={}):
+        
         """
         task_graph: 工作流数据结构
         task_funcs: 任务函数映射 {任务名: 可调用函数}
         """
         self.user_query = user_query
+        self.template = template
         self.task_dict = task_dict
         self.task_graph = task_graph
         self.task_funcs = task_funcs
+        self.task_llms = task_llms
         self.task_status = {task: "pending" for task in task_graph["order"]}
         self.task_results = {}
         self.task_events = {task: asyncio.Event() for task in task_graph["order"]}
@@ -216,19 +95,27 @@ class WorkflowExecutor:
 
     async def execute_task(self, task_name: str) -> Any:
         """执行单个任务（带依赖处理）"""       
-        dep_results = {} # 任务context + 任务template
+        dep_results = {} # 任务Context + 任务Template
 
-        # context
+        # Context
         for dep_task in self.task_dependencies[task_name]:
             await self.task_events[dep_task].wait()  # 确保依赖已完成
             if dep_task not in dep_results:
                 dep_results[dep_task] = self.task_dict.get(dep_task, {})
-        # template
+        # Template
         dep_results[task_name] = self.task_dict.get(task_name, {})
         # 获取任务函数
-        task_func = self.task_funcs.get(task_name, self.default_task)
+        task_func = self.task_funcs.get(task_name, None)
+        task_llm = self.task_llms.get(task_name, None)
         # 执行任务并传递依赖结果
-        result = await task_func(task_name, dep_results)
+        result = await task_func(
+            user_query=self.user_query, 
+            task_llm=task_llm, 
+            template=self.template,
+            task_name=task_name, 
+            dep_results=dep_results
+        )
+
         merge_result = merge_branch(self.task_dict.get(task_name, {}), result.get(task_name, {}))
         # 更新任务状态
         self.task_status[task_name] = "completed"
@@ -237,26 +124,6 @@ class WorkflowExecutor:
         self.task_events[task_name].set()
         return merge_result
     
-
-    async def default_task(self, task_name: str, dep_results: Dict[str, Any]) -> dict:
-        """
-            task_name: 当前任务名称
-            dep_results: 依赖任务的结果字典 {任务名: 结果}
-        """
-        with open(os.path.join(current_dir,"workflow_v1.json"), "r") as f:
-            dep_summary = json.load(f)
-        dep_summary['Template'] = {task_name : dep_results.get(task_name, {})}
-        dep_summary['Action'] = dep_summary['Action'].format(query=self.user_query, Template = {task_name : {k : "" for k, _ in dep_results.get(task_name, {}).items()}})
-
-        if dep_results:
-            dep_summary['Context'] = dep_results
-            task_work = format_template(dep_summary)
-            query_dict = ApiQuery(task_work)
-            return query_dict
-        else:
-            task_work = format_template(dep_summary)
-            query_dict = ApiQuery(task_work)
-            return query_dict
     
     async def sequential_executor(self, tasks: List[str]):
         """顺序执行器"""
@@ -281,9 +148,16 @@ class WorkflowExecutor:
                 await self.concurrent_executor(group_tasks)
         return self.task_results
 
-async def run(user_query, task_dict, example_workflow, task_funcs={}):    
+async def run(user_query, task_dict, template,task_graph, task_funcs, task_llms,):    
     # 执行器实例
-    executor = WorkflowExecutor(user_query, task_dict, example_workflow, task_funcs)    
+    executor = WorkflowExecutor(
+        user_query=user_query, 
+        task_dict=task_dict, 
+        template=template,
+        task_graph=task_graph, 
+        task_funcs=task_funcs,
+        task_llms=task_llms
+    )    
     results = await executor.adaptive_scheduler()
     return results
 
@@ -436,6 +310,7 @@ def workflow(user_query, task_dict):
         json.dump(results, f, ensure_ascii=False, indent=4)
 
 
+
 # 测试用例
 if __name__ == "__main__":
     print("======= 测试用例 1: 基本工作流 =======")
@@ -444,10 +319,7 @@ if __name__ == "__main__":
         "任务B": {"required_steps": ["任务D"]},
         "任务C": {"required_steps": ["任务D"]},
         "任务D": {"required_steps": []}
-    }
-
-
-  
+    }  
     case = """
 
         {  
@@ -504,9 +376,3 @@ if __name__ == "__main__":
         json.dump(task_dict, f, ensure_ascii=False, indent=4)
     with open('after.json', 'w', encoding='utf-8') as f:
         json.dump(results, f, ensure_ascii=False, indent=4)
-    
-  
-  
-
-
-
