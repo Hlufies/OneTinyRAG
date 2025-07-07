@@ -1,8 +1,8 @@
 # OneTinyRAG - Intelligent Document Assistant 
 
 <p align="center">
-  <a href="https://github.com/Hlufies/OneRAG/blob/main/Readme.md">English</a> | 
-  <a href="https://github.com/Hlufies/OneRAG/blob/main/Readme_zh.md">简体中文</a>
+  <a href="https://github.com/Hlufies/OneTinyRAG/blob/main/Readme.md">English</a> | 
+  <a href="https://github.com/Hlufies/OneTinyRAG/blob/main/Readme_zh.md">简体中文</a>
 </p>
 
 
