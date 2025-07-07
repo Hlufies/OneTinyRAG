@@ -1,5 +1,5 @@
 ```markdown
-# OneRAG - 智能文档助手
+# OneTinyRAG - 智能文档助手
 
 <p align="center">
   <a href="https://github.com/Hlufies/OneRAG/blob/main/Readme.md">English</a> | 
