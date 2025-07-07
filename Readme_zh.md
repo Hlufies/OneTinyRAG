@@ -1,10 +1,6 @@
 ```markdown
 # OneTinyRAG - 智能文档助手
 
-<p align="center">
-  <a href="https://github.com/Hlufies/OneRAG/blob/main/Readme.md">English</a> | 
-  <a href="https://github.com/Hlufies/OneRAG/blob/main/Readme_zh.md">简体中文</a>
-</p>
 
 实现核心的检索增强生成(RAG)能力，现开放社区驱动开发！
 
@@ -30,7 +26,7 @@ bash app.sh
 ## 项目结构
 
 ```
-/OneRAG/
+/OneTinyRAG/
 ├── app.sh                 # 主启动脚本
 ├── app.py                 # 主程序入口
 ├── Readme.md              # 英文文档
