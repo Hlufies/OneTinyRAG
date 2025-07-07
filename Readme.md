@@ -1,4 +1,4 @@
-# OneRAG - Intelligent Document Assistant 
+# OneTinyRAG - Intelligent Document Assistant 
 
 <p align="center">
   <a href="https://github.com/Hlufies/OneRAG/blob/main/Readme.md">English</a> | 
