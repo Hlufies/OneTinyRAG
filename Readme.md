@@ -31,7 +31,7 @@ bash app.sh
 ## Project Structure
 
 ```
-/OneRAG/
+/OneTinyRAG/
 ├── app.sh                 # Main bash file
 ├── app.py                 # Main entry point
 ├── Readme.md              # English documentation
